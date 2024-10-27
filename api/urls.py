@@ -1,5 +1,6 @@
 from django.urls import include, path
-from rest_framework import routers
+from .views import marketing_subscriber
+
 
 # v1/users
 # POST v1/users -> create user
@@ -7,4 +8,6 @@ from rest_framework import routers
 # POST v1/news/subscriptions -> subscribe
 # DELETE v1/news/subscriptions -> unsubscribe
 
-urlpatterns = []
+urlpatterns = [
+    path("v1/marketing/subscriptions", marketing_subscriber),
+]
