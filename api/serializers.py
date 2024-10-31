@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import MarketingSubscriber
+from .models import MarketingSubscriber, UserProfile
 
 
 class MarketingSubscriberSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MarketingSubscriber
         fields = ["email"]
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = "__all__"
