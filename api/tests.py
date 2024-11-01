@@ -27,9 +27,7 @@ class MarketingSubscriptionsTestCase(TestCase):
 class UserAPITestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user_profile = UserProfile.objects.create(
-            email="test@example.com",
-        )
+        self.user_profile = UserProfile.objects.create(email="test@example.com")
 
     def test_get_user_by_email_success(self):
         response = self.client.get(
@@ -48,4 +46,10 @@ class UserAPITestCase(TestCase):
         response = self.client.post(
             f"/api/v1/users/{self.user_profile.email}/", data={}, format="json"
         )
-        self.assertEqual(response.status_code, 405)  # Method Not Allowed
+        self.assertEqual(response.status_code, 405)
+
+    def test_wrong_url(self):
+        response = self.client.post(
+            f"/api/v1/users/{self.user_profile.email}", data={}, format="json"
+        )
+        self.assertEqual(response.status_code, 404)

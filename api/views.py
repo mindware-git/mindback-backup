@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import UserProfile
+from .messages import Message
 
 
 @api_view(["POST"])
@@ -18,9 +19,16 @@ def marketing_subscriber(request):
 
 @api_view(["GET"])
 def server_setting(request):
-    return Response({"server_version": "0.0.1"})
+    return Response({"server_version": "0.0.1"}, status=status.HTTP_200_OK)
 
 
-class UsersViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
+class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    lookup_field = "email"
+    lookup_value_regex = "[\w@.]+"
+
+
+class MessageViewSet(viewsets.ModelViewSet):
+    # serializer_class = MessageSerializer
+    queryset = Message.objects.all()

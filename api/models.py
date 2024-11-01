@@ -20,9 +20,13 @@ class UserProfile(AbstractBaseUser, PermissionsMixin, UserBaseSettings):
         auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
     )
     email = models.EmailField(blank=False, db_index=True, unique=True)
-    full_name = models.CharField(max_length=MAX_NAME_LENGTH)
-
+    username = models.CharField(max_length=MAX_NAME_LENGTH)
     date_joined = models.DateTimeField(default=timezone_now)
+    is_staff = models.BooleanField(default=False)
+
+    is_bot = models.BooleanField(default=False, db_index=True)
+    bot_type = models.PositiveSmallIntegerField(null=True, db_index=True)
+    bot_owner = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
 
     objects = UserManager()
 
