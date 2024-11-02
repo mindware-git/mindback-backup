@@ -1,6 +1,6 @@
 from rest_framework import serializers
-
-from api.models.users import MarketingSubscriber, UserProfile
+from django.contrib.auth.models import User
+from api.models.users import MarketingSubscriber
 
 
 class MarketingSubscriberSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,7 +9,7 @@ class MarketingSubscriberSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["email"]
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
+        model = User
         fields = "__all__"

@@ -1,12 +1,14 @@
+from django.contrib.auth.models import User
+
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from api.models.users import UserProfile
 from api.models.messages import Message
 
-from .serializers import MarketingSubscriberSerializer, UserProfileSerializer
+from .serializers import MarketingSubscriberSerializer, UserSerializer
+
 
 @api_view(["POST"])
 def marketing_subscriber(request):
@@ -24,8 +26,8 @@ def server_setting(request):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.all()
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
     lookup_field = "email"
     lookup_value_regex = "[\w@.]+"
 
