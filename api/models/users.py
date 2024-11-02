@@ -4,6 +4,8 @@ from django.db.models.functions import Upper
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from api.models.recipients import Recipient
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +26,16 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        user_profile = UserProfile.objects.create(user=instance)
+        recipient = Recipient.objects.create(
+            type_id=user_profile.id, type=Recipient.PERSONAL
+        )
+        user_profile.recipient = recipient
+        # user_profile.save(update_fields=["recipient"])
+
+        # Subscription.objects.create(
+        #     user_profile=user_profile, recipient=recipient, is_user_active=user_profile.is_active
+        # )
 
 
 @receiver(post_save, sender=User)

@@ -34,6 +34,14 @@ class Recipient(models.Model):
     )
     type_id = models.IntegerField(db_index=True)
     type = models.PositiveSmallIntegerField(db_index=True)
+    # Valid types are {personal, stream, direct_message_group}
+
+    # The type for 1:1 direct messages.
+    PERSONAL = 1
+    # The type for stream messages.
+    CHANNEL = 2
+    # The type group direct messages.
+    DIRECT_MESSAGE_GROUP = 3
 
     class Meta:
         unique_together = ("type", "type_id")

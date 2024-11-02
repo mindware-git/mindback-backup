@@ -38,15 +38,7 @@ class AbstractMessage(models.Model):
         db_default=MessageType.NORMAL,
     )
 
-    # The message's topic.
-    #
-    # Early versions of Zulip called this concept a "subject", as in an email
-    # "subject line", before changing to "topic" in 2013 (commit dac5a46fa).
-    # UI and user documentation now consistently say "topic".  New APIs and
-    # new code should generally also say "topic".
-    #
-    # See also the `topic_name` method on `Message`.
-    subject = models.CharField(max_length=MAX_TOPIC_NAME_LENGTH, db_index=True)
+    topic = models.CharField(max_length=MAX_TOPIC_NAME_LENGTH, db_index=True)
 
     # The raw Markdown-format text (E.g., what the user typed into the compose box).
     content = models.TextField()
