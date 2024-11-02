@@ -95,7 +95,7 @@ class MessagePOSTTest(TestCase):
         data = {
             "type": "direct",
             "content": "Test message",
-            # "to": orjson.dumps([user_profile.email]).decode(),
+            "to": self.user.email,
         }
         response = self.client.post(
             "/api/v1/messages/",
