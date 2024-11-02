@@ -1,8 +1,8 @@
 from django.db.models import CASCADE
 from django.db import models
+from django.contrib.auth.models import User
 
 from .recipients import Recipient
-from .users import UserProfile
 
 
 class AbstractMessage(models.Model):
@@ -11,7 +11,7 @@ class AbstractMessage(models.Model):
     id = models.AutoField(
         auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
     )
-    sender = models.ForeignKey(UserProfile, on_delete=CASCADE)
+    sender = models.ForeignKey(User, on_delete=CASCADE)
 
     # The target of the message is signified by the Recipient object.
     # See the Recipient class for details.

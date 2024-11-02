@@ -7,7 +7,11 @@ from rest_framework import status
 
 from api.models.messages import Message
 
-from .serializers import MarketingSubscriberSerializer, UserSerializer
+from .serializers import (
+    MarketingSubscriberSerializer,
+    UserSerializer,
+    MessageSerializer,
+)
 
 
 @api_view(["POST"])
@@ -33,5 +37,5 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class MessageViewSet(viewsets.ModelViewSet):
-    # serializer_class = MessageSerializer
+    serializer_class = MessageSerializer
     queryset = Message.objects.all()
