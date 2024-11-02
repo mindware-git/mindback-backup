@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import MarketingSubscriber, UserProfile
+
+from api.models.users import MarketingSubscriber, UserProfile
 
 
 class MarketingSubscriberSerializer(serializers.HyperlinkedModelSerializer):

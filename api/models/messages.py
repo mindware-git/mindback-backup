@@ -1,7 +1,8 @@
 from django.db.models import CASCADE
-from .recipients import Recipient
 from django.db import models
-from .models import UserProfile
+
+from .recipients import Recipient
+from .users import UserProfile
 
 
 class AbstractMessage(models.Model):
@@ -79,4 +80,4 @@ class AbstractMessage(models.Model):
 
 
 class Message(AbstractMessage):
-    API_RECIPIENT_TYPES = ["direct"]
+    API_RECIPIENT_TYPES = ["direct", "channel"]
