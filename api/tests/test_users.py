@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from rest_framework.test import APIClient
 
+from api.models.recipients import Recipient
+
 
 class MarketingSubscriptionsTestCase(TestCase):
     def setUp(self):
@@ -62,3 +64,40 @@ class UserAPITestCase(TestCase):
             f"/api/v1/users/{self.user.email}", data={}, format="json"
         )
         self.assertEqual(response.status_code, 404)
+
+    def test_create_user(self):
+        response = self.client.post(
+            "/api/v1/users/",
+            {
+                "email": "newuser@example.com",
+                "password": "password123",
+                "username": "newuser",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 201)
+
+    def test_create_user_failure(self):
+        response = self.client.post(
+            "/api/v1/users/",
+            {
+                "email": "newuser@example.com",
+                "password": "password123",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_user_creation_triggers_recipient_creation(self):
+        response = self.client.post(
+            "/api/v1/users/",
+            {
+                "email": "newuser@example.com",
+                "password": "password123",
+                "username": "newuser",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 201)
+        user = User.objects.get(email="newuser@example.com")
+        self.assertTrue(Recipient.objects.filter(type_id=user.userprofile.id).exists())

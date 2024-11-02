@@ -35,6 +35,27 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "email"
     lookup_value_regex = "[\w@.]+"
 
+    def create(self, request, *args, **kwargs):
+        # Extract email, password, and username from request data
+        email = request.data.get("email")
+        password = request.data.get("password")
+        username = request.data.get("username")
+
+        # Check if any of the required fields are None
+        if email is None or password is None or username is None:
+            return Response(
+                {"error": "Email, password, and username are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # Create a new user instance
+        user = User(email=email, username=username)
+        user.set_password(password)  # Set the password properly
+        user.save()
+
+        # Serialize the user instance and return the response
+        serializer = self.get_serializer(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
